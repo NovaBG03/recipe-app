@@ -8,5 +8,30 @@
 
 <h1>My Recipes!</h1>
 
+<div th:each="recipe: ${recipes}">
+    <p th:text="${recipe.description}"></p>
+    <p th:text="${'Prep time: '+recipe.prepTime}">prep time</p>
+    <p th:text="${'Cook time: '+recipe.cookTime}">cook time</p>
+    <p th:text="${'Servings: '+recipe.servings}">servings</p>
+    <p th:text="${'Url: '+recipe.url}">url</p>
+    <p th:text="${'Directions: '+recipe.directions}">directions</p>
+    <p th:text="${'Difficulty: '+recipe.difficulty}">difficulty</p>
+
+    <table>
+        <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Uom</th>
+        </tr>
+        <tr th:each="ingredient: ${recipe.ingredients}">
+        <td th:text="${ingredient.description}">description</td>
+        <td th:text="${ingredient.amount}">amount</td>
+        <td th:text="${ingredient.unitOfMeasure.description}">uom</td>
+        </tr>
+    </table>
+
+    <p th:text="${recipe.note.notes}">notes</p>
+</div>
+
 </body>
 </html>
