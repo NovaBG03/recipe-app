@@ -2,35 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <title>Recipe Home</title>
 </head>
 <body>
 
-<h1>My Recipes!</h1>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
 
-<div th:each="recipe: ${recipes}">
-    <p th:text="${recipe.description}"></p>
-    <p th:text="${'Prep time: '+recipe.prepTime}">prep time</p>
-    <p th:text="${'Cook time: '+recipe.cookTime}">cook time</p>
-    <p th:text="${'Servings: '+recipe.servings}">servings</p>
-    <p th:text="${'Url: '+recipe.url}">url</p>
-    <p th:text="${'Directions: '+recipe.directions}">directions</p>
-    <p th:text="${'Difficulty: '+recipe.difficulty}">difficulty</p>
-
-    <table>
-        <tr>
-        <th>Description</th>
-        <th>Amount</th>
-        <th>Uom</th>
-        </tr>
-        <tr th:each="ingredient: ${recipe.ingredients}">
-        <td th:text="${ingredient.description}">description</td>
-        <td th:text="${ingredient.amount}">amount</td>
-        <td th:text="${ingredient.unitOfMeasure.description}">uom</td>
-        </tr>
-    </table>
-
-    <p th:text="${recipe.note.notes}">notes</p>
+                <div class="panel-heading">
+                    <h1 class="panel-title">My Recipes!</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}"></div>
+                    <table class="table table-hover">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tr th:each="recipe : ${recipes}">
+                            <td th:text="${recipe.id}"></td>
+                            <td th:text="${recipe.description}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
