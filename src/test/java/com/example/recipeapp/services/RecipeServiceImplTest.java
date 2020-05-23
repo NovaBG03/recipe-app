@@ -1,5 +1,6 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.commands.RecipeCommand;
 import com.example.recipeapp.converters.RecipeCommandToRecipe;
 import com.example.recipeapp.converters.RecipeToRecipeCommand;
 import com.example.recipeapp.domain.Recipe;
@@ -65,5 +66,43 @@ class RecipeServiceImplTest {
         assertNotNull(returnedRecipe, "Null recipe returned");
         verify(recipeRepository, times(1)).findById(id);
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void testSaveRecipeCommand() {
+        Long id = 4L;
+        RecipeCommand noIdRecipeCommand = new RecipeCommand();
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(id);
+
+        Recipe noIdRecipe = new Recipe();
+        Recipe recipe = new Recipe();
+        recipe.setId(id);
+
+        when(recipeCommandToRecipe.convert(noIdRecipeCommand)).thenReturn(noIdRecipe);
+        when(recipeRepository.save(noIdRecipe)).thenReturn(recipe);
+        when(recipeToRecipeCommand.convert(recipe)).thenReturn(recipeCommand);
+
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(noIdRecipeCommand);
+
+        assertNotNull(savedCommand);
+        assertEquals(id, savedCommand.getId());
+    }
+
+    @Test
+    void testFindCommonById() {
+        Long id = 4L;
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(id);
+        Recipe recipe = new Recipe();
+        recipe.setId(id);
+
+        when(recipeRepository.findById(id)).thenReturn(Optional.of(recipe));
+        when(recipeToRecipeCommand.convert(recipe)).thenReturn(recipeCommand);
+
+        RecipeCommand foundRecipe = recipeService.findCommonById(id);
+
+        assertNotNull(foundRecipe);
+        assertEquals(id, foundRecipe.getId());
     }
 }
