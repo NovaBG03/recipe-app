@@ -1,6 +1,8 @@
 package com.example.recipeapp.controllers;
 
+import com.example.recipeapp.commands.IngredientCommand;
 import com.example.recipeapp.commands.RecipeCommand;
+import com.example.recipeapp.services.IngredientService;
 import com.example.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,9 @@ class IngredientControllerTest {
 
     @Mock
     RecipeService recipeService;
+
+    @Mock
+    IngredientService ingredientService;
 
     @InjectMocks
     IngredientController ingredientController;
@@ -47,5 +52,30 @@ class IngredientControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         verify(recipeService, times(1)).findCommonById(id);
+    }
+
+    @Test
+    void testShowIngredient() throws Exception{
+        Long recipeId = 1L;
+        Long ingredientId = 1L;
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(recipeId);
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(ingredientId);
+
+        recipeCommand.getIngredients().add(ingredientCommand);
+        ingredientCommand.setRecipe(recipeCommand);
+        ingredientCommand.setRecipeId(recipeId);
+
+        when(ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId)).thenReturn(ingredientCommand);
+
+        mockMvc.perform(get("/recipe/" + recipeId + "/ingredient/" + ingredientId + "/show"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(view().name("/recipe/ingredient/view"));
+
+        verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(recipeId, ingredientId);
     }
 }
