@@ -27,12 +27,17 @@
                             <thead class="thead-inverse">
                             <tr>
                                 <th>ID</th>
+                                <th>Amount</th>
                                 <th>Description</th>
+                                <th>Unit Of Measure</th>
                             </tr>
                             </thead>
-                            <tr th:each="ingredient : ${ingredient}">
+                            <tr>
                                 <td th:text="${ingredient.id}"></td>
+                                <td th:text="${ingredient.amount}"></td>
                                 <td th:text="${ingredient.description}"></td>
+                                <td th:text="${ingredient.unitOfMeasure.description}"></td>
+                            </tr>
                         </table>
                     </div>
                 </div>

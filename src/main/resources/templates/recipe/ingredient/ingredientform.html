@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <script crossorigin="anonymous"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+
+    <title>Ingredient Manager</title>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <form method="post" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'} "
+                  th:object="${ingredient}">
+                <input th:field="*{id}" type="hidden"/>
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title">Edit Ingredient Information</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label>Amount:</label>
+                                <input class="form-control" th:field="*{amount}" type="number"/>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label>Description:</label>
+                                <input class="form-control" th:field="*{description}" type="text"/>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label>Unit Of Measure:</label>
+                                <select class="form-control" name="unitOfMeasure.id">
+                                    <option th:each="uomEach : ${uomList}"
+                                            th:selected="${uomEach.id.equals(ingredient.unitOfMeasure.id)}"
+                                            th:text="${uomEach.description}"
+                                            th:value="${uomEach.id}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-outline-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
