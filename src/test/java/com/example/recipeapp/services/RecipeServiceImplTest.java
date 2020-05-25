@@ -100,7 +100,7 @@ class RecipeServiceImplTest {
         when(recipeRepository.findById(id)).thenReturn(Optional.of(recipe));
         when(recipeToRecipeCommand.convert(recipe)).thenReturn(recipeCommand);
 
-        RecipeCommand foundRecipe = recipeService.findCommonById(id);
+        RecipeCommand foundRecipe = recipeService.findCommandById(id);
 
         assertNotNull(foundRecipe);
         assertEquals(id, foundRecipe.getId());

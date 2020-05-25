@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -89,7 +90,7 @@ class IngredientServiceImplTest {
     }
 
     @Test
-    void testSaveIngredientCommand() {
+    void testUpdateIngredientCommand() {
         //given
         Long ingredientId = 1L;
         Long uomId = 2L;
@@ -119,6 +120,53 @@ class IngredientServiceImplTest {
 
         //then
         assertEquals(ingredientId, savedIngredient.getId());
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
+    }
+
+    @Test
+    void testSaveNewIngredientCommand() {
+        //given
+        String description = "description";
+        BigDecimal amount = new BigDecimal(1);
+
+        Long ingredientId = null;
+        Long newIngredientId = 5L;
+        Long uomId = 2L;
+        Long recipeId = 3L;
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(ingredientId);
+        ingredientCommand.setRecipeId(recipeId);
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+        ingredientCommand.getUnitOfMeasure().setId(uomId);
+        ingredientCommand.setDescription(description);
+        ingredientCommand.setAmount(amount);
+
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setId(uomId);
+
+        Ingredient newIngredient = new Ingredient();
+        newIngredient.setId(newIngredientId);
+        newIngredient.setUnitOfMeasure(uom);
+        newIngredient.setDescription(description);
+        newIngredient.setAmount(amount);
+
+        Recipe savedRecipe = new Recipe();
+        savedRecipe.setId(recipeId);
+        savedRecipe.addIngredient(newIngredient);
+
+        Recipe initialRecipe = new Recipe();
+        initialRecipe.setId(recipeId);
+
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(initialRecipe));
+        when(recipeRepository.save(any())).thenReturn(savedRecipe);
+
+        //when
+        IngredientCommand savedIngredient = ingredientService.saveIngredientCommand(ingredientCommand);
+
+        //then
+        assertEquals(newIngredientId, savedIngredient.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
     }

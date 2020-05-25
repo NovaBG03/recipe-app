@@ -81,7 +81,7 @@ class RecipeControllerTest {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(id);
 
-        when(recipeService.findCommonById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
 
         mvc.perform(get("/recipe/" + id + "/update"))
                 .andExpect(status().isOk())

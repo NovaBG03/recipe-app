@@ -1,15 +1,17 @@
 package com.example.recipeapp.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@ToString(exclude = {"note", "ingredients", "categories"})
 public class Recipe {
 
     @Id

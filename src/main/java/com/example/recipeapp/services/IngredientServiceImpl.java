@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class IngredientServiceImpl implements IngredientService{
+public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
@@ -88,12 +88,22 @@ public class IngredientServiceImpl implements IngredientService{
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        //todo ingredientCommand may have null as id
-        return ingredientToIngredientCommand.convert(savedRecipe
+        Optional<Ingredient> savedIngredient = savedRecipe
                 .getIngredients()
                 .stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientCommand.getId()))
-                .findFirst()
-                .get());
+                .findFirst();
+
+        if (!savedIngredient.isPresent()) {
+            savedIngredient = savedRecipe.getIngredients()
+                    .stream()
+                    .filter(ingredient -> ingredient.getAmount().equals(ingredientCommand.getAmount()))
+                    .filter(ingredient -> ingredient.getDescription().equals(ingredientCommand.getDescription()))
+                    .filter(ingredient -> ingredient.getUnitOfMeasure().getId()
+                            .equals(ingredientCommand.getUnitOfMeasure().getId()))
+                    .findFirst();
+        }
+
+        return ingredientToIngredientCommand.convert(savedIngredient.get());
     }
 }
