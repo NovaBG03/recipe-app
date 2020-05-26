@@ -3,9 +3,9 @@ package com.example.recipeapp.services;
 import com.example.recipeapp.commands.IngredientCommand;
 import com.example.recipeapp.converters.IngredientCommandToIngredient;
 import com.example.recipeapp.converters.IngredientToIngredientCommand;
-import com.example.recipeapp.converters.RecipeToRecipeCommand;
 import com.example.recipeapp.domain.Ingredient;
 import com.example.recipeapp.domain.Recipe;
+import com.example.recipeapp.repositories.IngredientRepository;
 import com.example.recipeapp.repositories.RecipeRepository;
 import com.example.recipeapp.repositories.UnitOfMeasureRepository;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,17 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     public IngredientServiceImpl(RecipeRepository recipeRepository,
-                                 UnitOfMeasureRepository unitOfMeasureRepository,
+                                 IngredientRepository ingredientRepository, UnitOfMeasureRepository unitOfMeasureRepository,
                                  IngredientToIngredientCommand ingredientToIngredientCommand,
                                  IngredientCommandToIngredient ingredientCommandToIngredient) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
@@ -105,5 +107,34 @@ public class IngredientServiceImpl implements IngredientService {
         }
 
         return ingredientToIngredientCommand.convert(savedIngredient.get());
+    }
+
+    @Override
+    @Transactional
+    public void deleteIngredientById(Long recipeId, Long ingredientId) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Invalid recipe id.");
+        }
+
+        Recipe recipe = recipeOptional.get();
+
+        Optional<Ingredient> ingredientOptional = recipe
+                .getIngredients()
+                .stream()
+                .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                .findFirst();
+
+        if (!ingredientOptional.isPresent()) {
+            throw new RuntimeException("Invalid ingredient id.");
+        }
+
+        Ingredient ingredient = ingredientOptional.get();
+
+        recipe.removeIngredient(ingredient);
+
+        recipeRepository.save(recipe);
+        ingredientRepository.delete(ingredient);
     }
 }

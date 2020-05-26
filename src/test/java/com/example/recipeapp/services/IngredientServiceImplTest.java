@@ -6,6 +6,7 @@ import com.example.recipeapp.converters.*;
 import com.example.recipeapp.domain.Ingredient;
 import com.example.recipeapp.domain.Recipe;
 import com.example.recipeapp.domain.UnitOfMeasure;
+import com.example.recipeapp.repositories.IngredientRepository;
 import com.example.recipeapp.repositories.RecipeRepository;
 import com.example.recipeapp.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,9 @@ class IngredientServiceImplTest {
 
     @Mock
     RecipeRepository recipeRepository;
+
+    @Mock
+    IngredientRepository ingredientRepository;
 
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
@@ -49,7 +53,7 @@ class IngredientServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository,
+        ingredientService = new IngredientServiceImpl(recipeRepository, ingredientRepository, unitOfMeasureRepository,
                 ingredientToIngredientCommand, ingredientCommandToIngredient);
     }
 
@@ -169,5 +173,28 @@ class IngredientServiceImplTest {
         assertEquals(newIngredientId, savedIngredient.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
+    }
+
+    @Test
+    void testDeleteIngredientById() {
+        //given
+        Long ingredientId = 1L;
+        Long recipeId = 2L;
+
+        Ingredient ingredient = new Ingredient();
+        ingredient.setId(ingredientId);
+
+        Recipe recipe = new Recipe();
+        recipe.setId(recipeId);
+        recipe.addIngredient(ingredient);
+
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipe));
+
+        //when
+        ingredientService.deleteIngredientById(recipeId, ingredientId);
+
+        //then
+        verify(recipeRepository, times(1)).findById(recipeId);
+        verify(recipeRepository, times(1)).save(recipe);
     }
 }

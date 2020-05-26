@@ -31,7 +31,7 @@ public class Recipe {
     @Lob
     private Byte[] image;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Note note;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
@@ -67,6 +67,16 @@ public class Recipe {
 
         ingredient.setRecipe(this);
         this.ingredients.add(ingredient);
+        return this;
+    }
+
+    public Recipe removeIngredient(Ingredient ingredient) {
+        if (ingredient == null) {
+            return null;
+        }
+
+        ingredient.setRecipe(null);
+        this.ingredients.remove(ingredient);
         return this;
     }
 }
