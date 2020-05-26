@@ -144,7 +144,7 @@ class IngredientControllerTest {
         when(unitOfMeasureService.listAllUnitsOfMeasure()).thenReturn(uoms);
         when(recipeService.findCommandById(recipeId)).thenReturn(recipeCommand);
 
-        mockMvc.perform(get("/recipe/" + recipeId + "/ingredient/new"))
+        mockMvc.perform(post("/recipe/" + recipeId + "/ingredient/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/recipe/ingredient/ingredientform"))
                 .andExpect(model().attributeExists("ingredient"))
@@ -156,7 +156,7 @@ class IngredientControllerTest {
         Long ingredientId = 1L;
         Long recipeId = 2L;
 
-        mockMvc.perform(get("/recipe/" + recipeId + "/ingredient/" + ingredientId + "/delete"))
+        mockMvc.perform(post("/recipe/" + recipeId + "/ingredient/" + ingredientId + "/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/" + recipeId + "/ingredients"));
 
