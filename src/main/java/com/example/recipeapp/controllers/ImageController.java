@@ -48,6 +48,10 @@ public class ImageController {
     public void renderImageFromDb(@PathVariable String id, HttpServletResponse response) throws IOException {
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
 
+        if (recipeCommand.getImage() == null) {
+            return;
+        }
+
         byte[] image = new byte[recipeCommand.getImage().length];
         for (int i = 0; i < image.length; i++) {
             image[i] = recipeCommand.getImage()[i];
