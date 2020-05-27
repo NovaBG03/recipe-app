@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <script crossorigin="anonymous"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+
+    <title>Upload Image</title>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title">Upload a new recipe image</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form enctype="multipart/form-data" method="post"
+                                  th:action="@{'/recipe/' + ${recipe.getId()} + '/image'}">
+                                <div>
+                                    <label class="control-label">Select a File</label>
+                                    <input class="file" id="imagefile" name="imagefile" type="file">
+                                </div>
+                                <br>
+                                <button class="btn btn-outline-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

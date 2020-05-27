@@ -82,6 +82,7 @@ class RecipeCommandToRecipeTest {
         ingredient2.setId(INGREDIENT_ID_2);
         recipeCommand.getIngredients().add(ingredient2);
 
+
         //when
         Recipe recipe = converter.convert(recipeCommand);
 
@@ -96,6 +97,7 @@ class RecipeCommandToRecipeTest {
         assertEquals(SERVINGS, recipe.getServings());
         assertEquals(SOURCE, recipe.getSource());
         assertEquals(URL, recipe.getUrl());
+        assertEquals(IMAGE, recipe.getImage());
         assertEquals(NOTE_ID, recipe.getNote().getId());
         assertEquals(2, recipe.getCategories().size());
         assertEquals(2, recipe.getIngredients().size());

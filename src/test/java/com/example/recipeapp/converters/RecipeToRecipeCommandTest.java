@@ -92,6 +92,7 @@ class RecipeToRecipeCommandTest {
         assertEquals(SERVINGS, recipeCommand.getServings());
         assertEquals(SOURCE, recipeCommand.getSource());
         assertEquals(URL, recipeCommand.getUrl());
+        assertEquals(IMAGE, recipeCommand.getImage());
         assertEquals(NOTE_ID, recipeCommand.getNote().getId());
         assertEquals(2, recipeCommand.getCategories().size());
         assertEquals(2, recipeCommand.getIngredients().size());
