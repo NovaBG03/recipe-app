@@ -68,7 +68,7 @@ public class IngredientController {
     }
 
 
-    @PostMapping("/recipe/{recipeId}/ingredient/new")
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
     public String newRecipeIngredient(@PathVariable String recipeId, Model model) {
         //make sure we have a good id value
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));

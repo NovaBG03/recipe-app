@@ -55,9 +55,11 @@ public class RecipeServiceImpl implements RecipeService{
         Recipe recipe = recipeCommandToRecipe.convert(recipeCommand);
 
         //todo you may not be able to change image with this method
-        Optional<Recipe> recipeFromDb = recipeRepository.findById(recipeCommand.getId());
-        if (recipeFromDb.isPresent()) {
-            recipe.setImage(recipeFromDb.get().getImage());
+        if (recipeCommand.getId() != null) {
+            Optional<Recipe> recipeFromDb = recipeRepository.findById(recipeCommand.getId());
+            if (recipeFromDb.isPresent()) {
+                recipe.setImage(recipeFromDb.get().getImage());
+            }
         }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
