@@ -144,7 +144,7 @@ class IngredientControllerTest {
         when(unitOfMeasureService.listAllUnitsOfMeasure()).thenReturn(uoms);
         when(recipeService.findCommandById(recipeId)).thenReturn(recipeCommand);
 
-        mockMvc.perform(post("/recipe/" + recipeId + "/ingredient/new"))
+        mockMvc.perform(get("/recipe/" + recipeId + "/ingredient/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/recipe/ingredient/ingredientform"))
                 .andExpect(model().attributeExists("ingredient"))
