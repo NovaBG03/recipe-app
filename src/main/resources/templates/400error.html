@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+
+    <title>400 Bad Request</title>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="col-md-6 offset-3">
+        <h1>400 Bad Request</h1>
+        <p th:text="${exception.getMessage()}"></p>
+    </div>
+</div>
+
+</body>
+</html>

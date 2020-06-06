@@ -54,13 +54,21 @@ class RecipeControllerTest {
     @Test
     void testGetRecipeNotFound() throws Exception {
         Long id = 1L;
-        Recipe recipe = null;
 
         when(recipeService.getRecipeById(anyLong())).thenThrow(NotFoundException.class);
 
         mvc.perform(get("/recipe/" + id + "/show"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));
+    }
+
+    @Test
+    void testGetRecipeNumbersFormatException() throws Exception {
+        String id = "some string";
+
+        mvc.perform(get("/recipe/" + id + "/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
     @Test
