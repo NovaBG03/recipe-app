@@ -16,30 +16,30 @@ import java.util.Set;
 @NoArgsConstructor
 public class RecipeCommand {
     private Long id;
-    private Set<CategoryCommand> categories = new HashSet<>();
 
-    @Min(0)
+    @Min(1)
     @Max(999)
     private Integer cookTime;
 
-    @Min(0)
+    @Min(1)
     @Max(999)
     private Integer prepTime;
 
-    @Min(0)
+    @Min(1)
     @Max(100)
     private Integer servings;
 
-    @Size(max = 255)
-    private String source;
-
-    @NotEmpty
-    @Size(max = 255)
+    @NotBlank
+    @Size(min = 3, max = 255)
     private String description;
 
-    @NotEmpty
-    @Size(max = 255)
+    @NotBlank
+    @Size(min = 3, max = 2550)
     private String directions;
+
+    @NotBlank
+    @Size(min = 3, max = 255)
+    private String source;
 
     @URL
     @Size(max = 255)
@@ -51,4 +51,5 @@ public class RecipeCommand {
     private NoteCommand note;
     private Byte[] image;
     private Set<IngredientCommand> ingredients = new HashSet<>();
+    private Set<CategoryCommand> categories = new HashSet<>();
 }

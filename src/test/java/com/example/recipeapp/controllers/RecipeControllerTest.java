@@ -91,11 +91,12 @@ class RecipeControllerTest {
         when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
 
         mvc.perform(post("/recipe")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .param("id", "")
-            .param("description", "some description")
-            .param("directions", "some directions")
-            .param("difficulty", "EASY"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some description")
+                .param("directions", "some directions")
+                .param("source", "some source")
+                .param("difficulty", "EASY"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/" + id + "/show/"));
     }
