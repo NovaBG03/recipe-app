@@ -86,7 +86,7 @@ public class IngredientController {
         return "/recipe/ingredient/ingredientform";
     }
 
-    @PostMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
     public String deleteRecipeIngredient(@PathVariable String recipeId, @PathVariable String ingredientId) {
 
         ingredientService.deleteIngredientById(Long.valueOf(recipeId), Long.valueOf(ingredientId));

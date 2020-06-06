@@ -156,7 +156,7 @@ class IngredientControllerTest {
         Long ingredientId = 1L;
         Long recipeId = 2L;
 
-        mockMvc.perform(post("/recipe/" + recipeId + "/ingredient/" + ingredientId + "/delete"))
+        mockMvc.perform(get("/recipe/" + recipeId + "/ingredient/" + ingredientId + "/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/" + recipeId + "/ingredients"));
 
