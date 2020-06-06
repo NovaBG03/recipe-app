@@ -93,9 +93,26 @@ class RecipeControllerTest {
         mvc.perform(post("/recipe")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .param("id", "")
-            .param("description", "some description"))
+            .param("description", "some description")
+            .param("directions", "some directions")
+            .param("difficulty", "EASY"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/" + id + "/show/"));
+    }
+
+    @Test
+    void testSaveOfUpdateFail() throws Exception{
+        Long id = 2L;
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(id);
+
+        mvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some description"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
