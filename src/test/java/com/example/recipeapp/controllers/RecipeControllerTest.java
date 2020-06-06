@@ -2,6 +2,7 @@ package com.example.recipeapp.controllers;
 
 import com.example.recipeapp.commands.RecipeCommand;
 import com.example.recipeapp.domain.Recipe;
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,17 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attribute("recipe", recipe));
+    }
+
+    @Test
+    void testGetRecipeNotFound() throws Exception {
+        Long id = 1L;
+        Recipe recipe = null;
+
+        when(recipeService.getRecipeById(anyLong())).thenThrow(NotFoundException.class);
+
+        mvc.perform(get("/recipe/" + id + "/show"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
