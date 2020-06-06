@@ -39,7 +39,9 @@ class ImageControllerTest {
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(imageController).build();
+        mvc = MockMvcBuilders.standaloneSetup(imageController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -57,6 +59,16 @@ class ImageControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         verify(recipeService, times(1)).findCommandById(recipeId);
+    }
+
+
+    @Test
+    void testGetUploadFormNumbersFormatException() throws Exception {
+        String id = "some string";
+
+        mvc.perform(get("/recipe/" + id + "/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
     @Test
