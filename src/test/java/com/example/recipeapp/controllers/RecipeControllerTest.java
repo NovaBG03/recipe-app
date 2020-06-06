@@ -59,7 +59,8 @@ class RecipeControllerTest {
         when(recipeService.getRecipeById(anyLong())).thenThrow(NotFoundException.class);
 
         mvc.perform(get("/recipe/" + id + "/show"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
     }
 
     @Test
