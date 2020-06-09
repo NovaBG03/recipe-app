@@ -26,7 +26,7 @@ public class RecipeCommand {
     private Integer prepTime;
 
     @Min(1)
-    @Max(100)
+    @Max(value = 100, message = "{0} must be less than {1}")
     private Integer servings;
 
     @NotBlank
