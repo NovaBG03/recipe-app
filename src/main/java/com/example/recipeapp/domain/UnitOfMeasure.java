@@ -12,6 +12,13 @@ import javax.persistence.Id;
 @Entity
 public class UnitOfMeasure {
 
+    public UnitOfMeasure() {
+    }
+
+    public UnitOfMeasure(String description) {
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

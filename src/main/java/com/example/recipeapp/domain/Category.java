@@ -12,6 +12,13 @@ import java.util.Set;
 @Entity
 public class Category {
 
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
